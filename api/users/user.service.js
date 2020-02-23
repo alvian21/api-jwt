@@ -41,12 +41,13 @@ module.exports = {
         pool.query("update user set name = ?, email = ?, password = ? where id = ?",
         [data.name,
          data.email,
-         data.password
+         data.password,
+         data.id
         ],  (error, results, fields) => {
             if(error){
                 return callBack(error);
             }
-            return callBack(null, results[0]);
+            return callBack(null, results);
         }
         );
         
@@ -60,6 +61,16 @@ module.exports = {
             return callBack(null, results[0]);
         }
         );
+    },
+    getUserByEmail: (email, callBack)=>{
+        pool.query("select * from user where email = ?",[email],
+            (error, results, fields)=>{
+                if(error){
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
+            }   
+        )
     }
 
 };
